@@ -35,16 +35,15 @@ class ProductManager {
 
         //verifica que no haya codes repetidos, si se repite no agrega el producto        
         const duplicateCode = this.products.some(product => product.code === code)
-        
+
         if(!duplicateCode){
             this.products.push(product)
-        } 
-        
+        }
     }
 
 
     getProductByID = (id) => {
-        const productFound = this.products.some(product => product.id == id)
+        const productFound = this.products.find(product => product.id === id)
         return productFound || console.log("ERROR: PRODUCT NOT FOUND")
     }
 }
@@ -83,11 +82,11 @@ manager.addProduct(
 
 //este producto no se agrega por tener el valor "code" repetido
 manager.addProduct(
-    "producto 4",
-    "descripción 4",
-    12345,
+    "producto 3",
+    "descripción 3",
+    123,
     "N/A",
-    355,
+    35,
     "ghi789"
 )
 
