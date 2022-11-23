@@ -123,6 +123,6 @@ manager.addProduct(
 console.log(manager.getProducts()); //muestra el array con los productos ya agregados
 
 console.log("----------------------------")
-console.log("PRODUTO SELECCIONADO:", manager.getProductByID(2)); //devuelve el producto con ID 2
+console.log("PRODUCTO SELECCIONADO:", manager.getProductByID(2)); //devuelve el producto con ID 2
 console.log("----------------------------")
 console.log(manager.getProductByID(6)); //devuelve error ya que no existe producto con ese ID
