@@ -19,6 +19,27 @@ class ProductManager {
         return nextID
     }
 
+
+    validateFields = (title, description, price, thumbnail, stock, code) =>{
+        if((title == undefined || title == "") || (description == undefined || description == "") || (price == undefined ||price == "") || (thumbnail== undefined || thumbnail== "") || (code == undefined) || (stock == undefined || stock == "")){
+            console.log("ERROR AL AGREGAR PRODUCTO: TODOS LOS CAMPOS SON OBLIGATORIOS")
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    duplicateCode = (code) => { 
+        const product = this.products.find(product => product.code === code)
+        if(product == undefined){
+            return true;
+        } else if(product != undefined){ 
+            console.log(`ERROR: EL CÓDIGO "${code}" NO PUEDE REPETIRSE`);
+            return false;
+        }
+    }
+
+
     //añadir producto
     addProduct = (title, description, price, thumbnail, stock, code) => {
         const id = this.generateID()
@@ -34,9 +55,9 @@ class ProductManager {
         }
 
         //verifica que no haya codes repetidos, si se repite no agrega el producto        
-        const duplicateCode = this.products.some(product => product.code === code)
+        
 
-        if(!duplicateCode){
+        if(this.duplicateCode(code) && this.validateFields(title, description, price, thumbnail, stock, code)){
             this.products.push(product)
         }
     }
@@ -44,7 +65,7 @@ class ProductManager {
 
     getProductByID = (id) => {
         const productFound = this.products.find(product => product.id === id)
-        return productFound || console.log("ERROR: PRODUCT NOT FOUND")
+        return productFound || console.log(`ERROR: EL PRODUCTO CON EL ID ${id} NO EXISTE`)
     }
 }
 
@@ -80,7 +101,16 @@ manager.addProduct(
     "ghi789"
 )
 
-//este producto no se agrega por tener el valor "code" repetido
+//este producto no se agrega porque le falta el título
+manager.addProduct(
+    "descripción 4",
+    12345,
+    "N/A",
+    35,
+    "jkl123"
+)
+
+//este producto no se agrega por tener el valor "code" repetido y dará error en la consola
 manager.addProduct(
     "producto 3",
     "descripción 3",
@@ -92,4 +122,7 @@ manager.addProduct(
 
 console.log(manager.getProducts()); //muestra el array con los productos ya agregados
 
-manager.getProductByID(9); //devuelve error ya que no existe producto con id 9
+console.log("----------------------------")
+console.log("PRODUTO SELECCIONADO:", manager.getProductByID(2)); //devuelve el producto con ID 2
+console.log("----------------------------")
+console.log(manager.getProductByID(6)); //devuelve error ya que no existe producto con ese ID
