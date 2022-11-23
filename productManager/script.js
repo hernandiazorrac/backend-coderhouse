@@ -20,6 +20,8 @@ class ProductManager {
     }
 
 
+    //verifica que todos los campos estén completos, si uno está vacío no agrega el producto
+    
     validateFields = (title, description, price, thumbnail, stock, code) =>{
         if((title == undefined || title == "") || (description == undefined || description == "") || (price == undefined ||price == "") || (thumbnail== undefined || thumbnail== "") || (code == undefined) || (stock == undefined || stock == "")){
             console.log("ERROR AL AGREGAR PRODUCTO: TODOS LOS CAMPOS SON OBLIGATORIOS")
@@ -28,6 +30,8 @@ class ProductManager {
             return true;
         }
     }
+
+    //verifica que no se repitan los códigos de los productos, si se repiten devuelve error y no lo agrega
 
     duplicateCode = (code) => { 
         const product = this.products.find(product => product.code === code)
@@ -53,9 +57,6 @@ class ProductManager {
             stock,
             code
         }
-
-        //verifica que no haya codes repetidos, si se repite no agrega el producto        
-        
 
         if(this.duplicateCode(code) && this.validateFields(title, description, price, thumbnail, stock, code)){
             this.products.push(product)
@@ -110,7 +111,7 @@ manager.addProduct(
     "jkl123"
 )
 
-//este producto no se agrega por tener el valor "code" repetido y dará error en la consola
+//este producto no se agrega por tener el valor "code" repetido
 manager.addProduct(
     "producto 3",
     "descripción 3",
