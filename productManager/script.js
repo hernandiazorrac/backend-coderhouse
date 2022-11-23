@@ -72,7 +72,7 @@ class ProductManager {
 
 const manager = new ProductManager()
 
-console.log(manager.getProducts()); //muestra el array sin productos
+getProducts = () => {return this.products}; //muestra el array sin productos
 
 //productos a agregar
 manager.addProduct(
