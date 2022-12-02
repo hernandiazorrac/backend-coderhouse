@@ -19,6 +19,7 @@ class ProductManager {
         return nextID
     }
 
+
     addProduct = async (title, description, price, thumbnail, stock, code) => {
         const id = await this.generateID()
 
@@ -28,7 +29,7 @@ class ProductManager {
                 return products
             })
             .then(productsNew => fs.promises.writeFile(this.fileName, JSON.stringify(productsNew)))
-    }
+}
 
     getProductById = async (id) => {
         const data = await this.getProduct()
@@ -51,22 +52,20 @@ class ProductManager {
             const index = data.indexOf(toBeDeleted)
             data.splice(index, 1);
             await fs.promises.writeFile(this.fileName, JSON.stringify(data))
-            console.log(`\n\nPRODUCTO ELIMINADO: ID "${id}".`);
+            console.log(`\nPRODUCTO ELIMINADO: ID "${id}".`);
         } else {
             console.log(`\n\nERROR AL ELIMINAR PRODUCTO: EL PRODUCTO CON EL ID "${id}" NO SE ENCUENTRA EN LA LISTA.`);
         }
     }
 
-    updateProduct = async (id) => {
+    updateProduct = async (id, field, newValue) => {
         const data = await this.getProduct()
         const toBeUpdated = data.find(product => product.id === id)
 
-        toBeUpdated["title"] = "PRODUCTO ACTUALIZADO"
-        toBeUpdated["stock"] = 150
+        toBeUpdated[field] = newValue;
         
-        fs.writeFileSync(this.fileName, JSON.stringify(data))
+        await fs.promises.writeFile(this.fileName, JSON.stringify(data))
     }
-
 }
 
 
@@ -79,15 +78,16 @@ async function run(){
     await manager.addProduct('producto 4', 'descripción 4', 4500, 'N/A', 40, 'def123')
     await manager.addProduct('producto 5', 'descripción 5', 5500, 'N/A', 50, 'def123')
     await manager.deleteProduct(2);
-    await manager.updateProduct(4)
 
-    console.log("---------------------------------PRODUCTOS AGREGADOS:\n");
+    await manager.updateProduct(4, "title", "PRODUCTO ACTUALIZADO")
+    await manager.updateProduct(4, "stock", 150)
+
+    console.log("---------------------------------\nPRODUCTOS AGREGADOS:");
     console.log(await manager.getProduct());
     console.log("---------------------------------\nPRODUCTO SELECCIONADO:");
     console.log(await manager.getProductById(3));
     console.log("---------------------------------")
     console.log(await manager.getProductById(50));
-    
 }
 
 run()
