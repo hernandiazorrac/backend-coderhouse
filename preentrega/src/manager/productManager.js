@@ -23,8 +23,7 @@ class FileManager {
         return (count > 0) ? list[count-1].id + Number(1) : 1
     }
 
-
-    add = async (id, title, description, price, code, stock, category) => {
+    add = async (id, title, price, description, code, stock, category) => {
         const list = await this.read()
         const generateID = this.generateID(list)
         id = generateID
@@ -32,8 +31,8 @@ class FileManager {
         const newProduct = {
             id: id,
             title,
-            description,
             price,
+            description,
             thumbnail: [],
             code,
             stock,
@@ -42,7 +41,6 @@ class FileManager {
         }
 
         list.push(newProduct)
-
         await this.write(list)
 
         return list
