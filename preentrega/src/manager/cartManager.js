@@ -61,7 +61,6 @@ class CartManager {
             if(cart.products[i].id == productID){
                 
                 cart.products[i].quantity++
-
                 found = true
                 break
             }
